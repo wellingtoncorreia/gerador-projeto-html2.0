@@ -90,7 +90,7 @@ app = tb.Window(themename="superhero")  # Tema estilo Windows 11
 app.title("Gerador de Projetos")
 app.geometry("500x350")
 try:
-    app.iconbitmap("cafe.ico")  # Certifique-se de que o arquivo 'cafe.ico' está na pasta
+    app.iconbitmap("professor.ico")  # Certifique-se de que o arquivo 'cafe.ico' está na pasta
 except Exception as e:
     print("Ícone não encontrado:", e)
 
