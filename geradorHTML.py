@@ -30,11 +30,17 @@ def criar_projeto():
         messagebox.showerror("Erro", f"Não foi possível criar as pastas: {e}")
         return
     
-    # Escolhe incluir ou não a referência ao jQuery
-    script_include = (
-        '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>'
-        if tipo_projeto == "jquery" else ""
-    )
+    script_jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>'
+    script_bootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>'
+    css_bootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">'
+    
+    script_include = ""
+    if tipo_projeto == "jquery":
+        script_include = script_jquery
+    elif tipo_projeto == "bootstrap":
+        script_include = css_bootstrap + "\n" + script_bootstrap
+    elif tipo_projeto == "bootstrap_jquery":
+        script_include = css_bootstrap + "\n" + script_bootstrap + "\n" + script_jquery
     
     index_html = f"""<!DOCTYPE html>
 <html lang="pt-br">
@@ -70,7 +76,6 @@ def criar_projeto():
 
     messagebox.showinfo("Sucesso", f"Projeto '{nome_projeto}' criado com sucesso em {caminho_projeto}!")
     
-    # Abrir no VS Code e fechar o programa
     try:
         subprocess.Popen(["code", caminho_projeto], shell=True)
     except Exception as e:
@@ -85,54 +90,49 @@ def escolher_pasta():
         entry_local.delete(0, tk.END)
         entry_local.insert(0, pasta)
 
-# Criação da janela principal utilizando ttkbootstrap
-app = tb.Window(themename="superhero")  # Tema estilo Windows 11
+app = tb.Window(themename="superhero")
 app.title("Gerador de Projetos")
-app.geometry("500x350")
+app.geometry("500x400")
 try:
-    app.iconbitmap("professor.ico")  # Certifique-se de que o arquivo 'cafe.ico' está na pasta
+    app.iconbitmap("professor.ico")
 except Exception as e:
     print("Ícone não encontrado:", e)
 
-# Frame para centralizar os elementos
 frame = tb.Frame(app)
 frame.pack(expand=True, fill="both", padx=20, pady=20)
 
-# Configurar Grid para alinhamento correto
 frame.columnconfigure(0, weight=0)
 frame.columnconfigure(1, weight=1)
 frame.columnconfigure(2, weight=0)
 
-# Título do formulário
 titulo = tb.Label(frame, text="Gerador de Projeto HTML", font=("Arial", 16, "bold"))
 titulo.grid(row=0, column=0, columnspan=3, pady=(0, 15))
 
-# Entrada para nome do projeto
 tb.Label(frame, text="Nome do Projeto:", font=("Arial", 11)).grid(row=1, column=0, sticky='e', padx=10, pady=5)
 entry_nome = tb.Entry(frame, width=35)
 entry_nome.grid(row=1, column=1, columnspan=2, pady=5, sticky="we")
 
-# Escolha de pasta para salvar o projeto
 tb.Label(frame, text="Local de Salvamento:", font=("Arial", 11)).grid(row=2, column=0, sticky='e', padx=10, pady=5)
 entry_local = tb.Entry(frame, width=28)
 entry_local.grid(row=2, column=1, pady=5, sticky="we")
 btn_pasta = tb.Button(frame, text="Selecionar", command=escolher_pasta, bootstyle="primary")
 btn_pasta.grid(row=2, column=2, padx=5, pady=5)
 
-# Opções de tipo de projeto
 tb.Label(frame, text="Tipo de Projeto:", font=("Arial", 11)).grid(row=3, column=0, sticky='e', padx=10, pady=5)
 var_tipo = tk.StringVar(value="javascript")
 radio_js = tb.Radiobutton(frame, text="JavaScript", variable=var_tipo, value="javascript", bootstyle="info")
 radio_jquery = tb.Radiobutton(frame, text="jQuery", variable=var_tipo, value="jquery", bootstyle="info")
+radio_bootstrap = tb.Radiobutton(frame, text="Bootstrap", variable=var_tipo, value="bootstrap", bootstyle="info")
+radio_bootstrap_jquery = tb.Radiobutton(frame, text="Bootstrap + jQuery", variable=var_tipo, value="bootstrap_jquery", bootstyle="info")
 radio_js.grid(row=3, column=1, sticky='w', pady=5)
 radio_jquery.grid(row=4, column=1, sticky='w', pady=5)
+radio_bootstrap.grid(row=5, column=1, sticky='w', pady=5)
+radio_bootstrap_jquery.grid(row=6, column=1, sticky='w', pady=5)
 
-# Botão para criar o projeto
 btn_criar = tb.Button(frame, text="Criar Projeto", command=criar_projeto, bootstyle="success", width=20)
-btn_criar.grid(row=5, column=0, columnspan=3, pady=20)
+btn_criar.grid(row=7, column=0, columnspan=3, pady=15)
 
-# Rodapé com assinatura
 label_rodape = tb.Label(app, text="by Prof-Café ☕", font=("Arial", 10, "italic"), foreground="gray")
-label_rodape.pack(side="bottom", pady=5)
+label_rodape.pack(side="bottom", pady=3)
 
 app.mainloop()
