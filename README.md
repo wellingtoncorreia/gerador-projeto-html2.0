@@ -4,7 +4,7 @@ Este projeto é um aplicativo desenvolvido em Python com Tkinter e ttkbootstrap 
 
 ## 📌 Funcionalidades
 - Criação automática de um projeto HTML com estrutura organizada
-- Opção para incluir suporte a jQuery
+- Opção para incluir suporte a jQuery, Bootstrap ou Bootstrap + jQuery
 - Interface gráfica moderna com `ttkbootstrap`
 - Escolha do diretório de salvamento
 - Abertura automática do projeto no VS Code após a criação
@@ -28,6 +28,12 @@ Após a execução do programa, será gerado um projeto com a seguinte estrutura
  ├── 📂 pages
  └── index.html
 ```
+
+O arquivo `index.html` conterá os links CDN das bibliotecas escolhidas pelo usuário:
+- **JavaScript puro:** Apenas um arquivo `script.js`
+- **jQuery:** Link CDN do jQuery
+- **Bootstrap:** Link CDN do Bootstrap
+- **Bootstrap + jQuery:** Links CDN do Bootstrap e jQuery
 
 ## 🚀 Como Executar
 ### 1️⃣ Instale as dependências
